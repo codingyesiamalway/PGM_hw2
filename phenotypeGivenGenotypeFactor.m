@@ -36,8 +36,10 @@ phenotypeFactor = struct('var', [], 'card', [], 'val', []);
 
 % Fill in phenotypeFactor.var.  This should be a 1-D row vector.
 % Fill in phenotypeFactor.card.  This should be a 1-D row vector.
-
-phenotypeFactor.val = zeros(1, prod(phenotypeFactor.card));
-% Replace the zeros in phentoypeFactor.val with the correct values.
+phenotypeFactor.var = [phenotypeVar, genotypeVar];
+phenotypeFactor.card = [2,3];
+A = IndexToAssignment([1:prod(phenotypeFactor.card)], phenotypeFactor.card);
+list = [alphaList(1), 1-alphaList(1), alphaList(2), 1-alphaList(2), alphaList(3), 1-alphaList(3)];
+phenotypeFactor = SetValueOfAssignment(phenotypeFactor, A, list);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

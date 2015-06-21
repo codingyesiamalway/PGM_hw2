@@ -23,8 +23,10 @@ function phenotypeFactor = phenotypeGivenGenotypeMendelianFactor(isDominant, gen
 %   isDominant: 1 if the trait is caused by the dominant allele (trait 
 %   would be caused by A in example above) and 0 if the trait is caused by
 %   the recessive allele (trait would be caused by a in the example above)
+%
 %   genotypeVar: The variable number for the genotype variable (goes in the
 %   .var part of the factor)
+%
 %   phenotypeVar: The variable number for the phenotype variable (goes in
 %   the .var part of the factor)
 %
@@ -40,8 +42,16 @@ phenotypeFactor = struct('var', [], 'card', [], 'val', []);
 
 % Fill in phenotypeFactor.var.  This should be a 1-D row vector.
 % Fill in phenotypeFactor.card.  This should be a 1-D row vector.
+phenotypeFactor.var = [phenotypeVar, genotypeVar];
+phenotypeFactor.card = [2,3];
+A = IndexToAssignment([1:prod(phenotypeFactor.card)], phenotypeFactor.card);
+if isDominant == 1,
+	V = [1,0,1,0,0,1];
+else
+	V = [0,1,0,1,1,0];
+end
+phenotypeFactor = SetValueOfAssignment(phenotypeFactor, A, V);
 
-phenotypeFactor.val = zeros(1, prod(phenotypeFactor.card));
 % Replace the zeros in phentoypeFactor.val with the correct values.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
